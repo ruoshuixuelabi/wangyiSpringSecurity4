@@ -6,7 +6,7 @@
             http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
             http://www.springframework.org/schema/security
             http://www.springframework.org/schema/security/spring-security-4.2.xsd">
-    <!-- <security:http>: spring过滤器链配置：
+    <!-- <security:http>: Spring过滤器链配置：
              1）需要拦截什么资源
              2）什么资源什么角色权限
              3）定义认证方式：HttpBasic，FormLogin（*）
@@ -21,14 +21,14 @@
                     permitAll():允许所有人(匿名和登录用户)方法
         -->
         <security:intercept-url pattern="/product/index" access="permitAll()"/>
-        <!--跳转登陆的时候是允许匿名的-->
+        <!--跳转登陆的时候是允许匿名的,这个不配置的话会造成页面异常,重定向次数过多-->
         <security:intercept-url pattern="/userLogin" access="permitAll()"/>
         <security:intercept-url pattern="/product/add" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/product/update" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/product/list" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/product/delete" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/**" access="isFullyAuthenticated()"/>
-        <!-- security:http-basic: 使用HttpBasic方式进行登录（认证） -->
+        <!-- security:http-basic: 使用HttpBasic方式进行登录(认证)-->
         <!--<security:http-basic/>-->
         <!--
               login-page:自定义登录页面
@@ -44,19 +44,20 @@
         <security:csrf disabled="true"/>
     </security:http>
     <!--
-       security:authentication-manager： 认证管理器
-            1）认证信息提供方式（账户名，密码，当前用户权限）
+       security:authentication-manager：认证管理器
+            1）认证信息提供方式(账户名,密码,当前用户权限)
     -->
     <security:authentication-manager>
-        <!--  自定义UserDetailService方式-->
+        <!--  自定义的UserDetailService方式-->
         <security:authentication-provider user-service-ref="myUserDetailService">
+            <!--硬编码的方式-->
             <!--<security:user-service>
                 <security:user name="eric" password="123456" authorities="ROLE_USER"/>
                 <security:user name="jack" password="123456" authorities="ROLE_ADMIN"/>
             </security:user-service>-->
         </security:authentication-provider>
     </security:authentication-manager>
-    <bean id="myUserDetailService" class="cn.sm1234.security.MyUserDetailServiceImpl"/>
+    <bean id="myUserDetailService" class="cn.sm1234.security.MyUserDetailService"/>
     <bean id="myAuthenticationSuccessHandler" class="cn.sm1234.security.MyAuthenticationSuccessHandler"/>
     <bean id="myAuthenticationFailureHandler" class="cn.sm1234.security.MyAuthenticationFailureHandler"/>
 </beans>
