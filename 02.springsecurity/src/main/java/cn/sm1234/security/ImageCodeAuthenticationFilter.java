@@ -18,8 +18,8 @@ public class ImageCodeAuthenticationFilter extends OncePerRequestFilter {
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //判断当前请求 是否为登录请求
-        if( request.getRequestURI().contains("/login") ){
+        //判断当前请求是否为登录请求,只有是登陆请求的时候才应该显示验证码
+        if(request.getRequestURI().contains("/login") ){
             //校验验证码
             try {
                 //获取用户输入的验证码
@@ -33,7 +33,7 @@ public class ImageCodeAuthenticationFilter extends OncePerRequestFilter {
                     throw new ImageCodeException( "验证码不一致");
                 }
             }catch (AuthenticationException e){
-                //交给自定义AuthentFailureHandler处理
+                //交给自定义AuthenticationFailureHandler处理
                 authenticationFailureHandler.onAuthenticationFailure(request,response,e);
                 return;
             }

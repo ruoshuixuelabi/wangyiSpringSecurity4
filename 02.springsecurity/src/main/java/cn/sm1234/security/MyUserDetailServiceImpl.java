@@ -2,6 +2,7 @@ package cn.sm1234.security;
 import cn.sm1234.domain.Permission;
 import cn.sm1234.domain.User;
 import cn.sm1234.mapper.UserMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +26,7 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
         if(user!=null) {
             //根据用户名查询当前用户所有权限
             List<Permission> permList = userMapper.findPermissionByUsername(username);
-            //authorities：存放所有用户权限
+            //authorities:存放所有用户权限
             List<GrantedAuthority> authorities = new ArrayList<>();
             for (Permission perm : permList) {
                 GrantedAuthority authority = new SimpleGrantedAuthority(perm.getPermTag());

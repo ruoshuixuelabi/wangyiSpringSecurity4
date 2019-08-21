@@ -11,13 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-    //该方法的作用就是代替之前配置：<security:authentication-manager>
+    /**
+     * 该方法的作用就是代替之前配置：<security:authentication-manager>
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("eric").password("123456").authorities("PRODUCT_ADD","PRODUCT_UPDATE");
+        auth.inMemoryAuthentication().withUser("eric").password("123456").authorities("PRODUCT_ADD", "PRODUCT_UPDATE");
     }
-
-    //该方法的作用就是代替之前配置：<security:http>
+    /**
+     * 该方法的作用就是代替之前配置：<security:http>
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
